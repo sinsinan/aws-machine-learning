@@ -1,0 +1,57 @@
+ScreenManagement:
+    #transition: FadeTransition()
+    MainScreen:
+    FileSelectScreen:
+	ReadyToAnalyseScreen:
+	AnalysisScreen:
+<Button>:
+    font_size: 40
+	size: 170,75
+	color: 0,1,0,1
+
+<MainScreen>:
+	name: 'main'
+    Button:
+		font_size: 30
+		size: 170,75
+		size_hint: None, None
+		color: 0,1,0,1
+        pos: ((root.x+root.right)/2)-(self.width/2), ((root.top + root.y)/2)-(self.height/2)
+        text: "Choose File"
+		on_release: app.root.current = 'fileselect'
+
+
+<FileSelectScreen>
+	name: 'fileselect'
+	id: my_widget
+	FileChooserIconView:
+        id: filechooser
+        on_selection:
+            root.manager.get_screen('readytoanalyse').ids.txt_inpt.text= str(filechooser.selection[0])
+            app.root.current = 'readytoanalyse'
+<ReadyToAnalyseScreen>
+	name: 'readytoanalyse'
+	id: readytoanalyse
+	TextInput:
+		id: txt_inpt
+		text: 'this'
+		size_hint: 0.8, 0.1
+		pos_hint: {"x":0, "top": 1}
+	Button:
+		size_hint: 0.2, 0.1
+		color: 0,1,0,1
+		pos_hint: {'right': 1, 'top':1}
+		text: "Analyze"
+		on_release:
+			root.manager.get_screen('analysis').ids.f1.text= readytoanalyse.ana(txt_inpt.text)
+			app.root.current = 'analysis'
+<AnalysisScreen>
+	name: 'analysis'
+	Label:
+		id: f1
+		text: 'hi'
+	Button:
+		text:'Try Again'
+		pos_hint: {"right":0.5, "top":0.4 }
+		size_hint: 0.3,0.2
+		on_release: app.root.current = 'main'
